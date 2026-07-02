@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-07-03
+
+### Added
+
+- Image-based fixed-layout EPUBs — comics, scanned books, and many Japanese tech books where every page is a single full-page image — now open in a dedicated viewer instead of the general EPUB engine. Large books open almost immediately and use much less memory, because pages are streamed one image at a time straight from the file rather than unpacking the whole archive up front. Two-page spreads are laid out correctly, following the book's page-progression direction and its left/right/center page assignments, with the cover shown on its own. The pages match the PDF viewer's spacing and soft page shadow.
+
+### Security
+
+- Updated bundled dependencies to pick up security fixes in transitive libraries, most notably the XML parser used while reading EPUB and PDF files (quick-xml) and the networking stack (quinn-proto). Both addressed denial-of-service advisories.
+
 ## [0.7.0] - 2026-06-11
 
 ### Added
@@ -425,7 +435,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reading progress counters and page-tracking UI were removed in favor of position restore only.
 
-[Unreleased]: https://github.com/zonuexe/riida/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/zonuexe/riida/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/zonuexe/riida/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/zonuexe/riida/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/zonuexe/riida/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/zonuexe/riida/compare/v0.6.0...v0.6.1
