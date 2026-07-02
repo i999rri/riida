@@ -755,6 +755,18 @@ warnings (mostly transitive GTK / Tauri ecosystem crates we cannot
 fix locally) and exits non-zero when an actual vulnerability is
 reported.
 
+`rust:audit` ignores two advisories via `--ignore`:
+
+- `RUSTSEC-2026-0194` / `RUSTSEC-2026-0195` — `quick-xml` DoS advisories
+  (quadratic duplicate-attribute scan; unbounded namespace-declaration
+  allocation), fixed in quick-xml `>= 0.41`. Our **direct** dependency is
+  already on 0.41, but `quick-xml 0.39.x` is still pulled transitively by
+  `tauri -> plist`, which parses build-time / bundle `.plist` files (not
+  attacker-controlled runtime input). We cannot bump that copy until
+  `plist` (and the `tauri` release depending on it) upgrade. **Remove
+  these ignores once `cargo tree -i quick-xml` no longer shows a `0.39.x`
+  (or any `< 0.41`) copy.**
+
 Project defaults live in
 [src-tauri/.cargo/mutants.toml](src-tauri/.cargo/mutants.toml) —
 cargo-mutants reads the config relative to the package being mutated
