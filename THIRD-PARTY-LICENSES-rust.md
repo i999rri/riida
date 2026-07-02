@@ -853,7 +853,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 ```
 
-### aws-lc-rs 1.17.0
+### aws-lc-rs 1.17.1
 
 - License: ISC AND (Apache-2.0 OR ISC)
 - Authors: AWS-LibCrypto
@@ -863,7 +863,7 @@ DEALINGS IN THE SOFTWARE.
 
 _See the [full text of the Apache License 2.0](#apache-20)._
 
-### aws-lc-sys 0.41.0
+### aws-lc-sys 0.42.0
 
 - License: ISC AND (Apache-2.0 OR ISC) AND Apache-2.0 AND MIT AND BSD-3-Clause AND (Apache-2.0 OR ISC OR MIT) AND (Apache-2.0 OR ISC OR MIT-0)
 - Authors: AWS-LC
@@ -5923,10 +5923,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### embed-resource 3.0.9
+### embed-resource 3.0.11
 
 - License: MIT
-- Authors: наб <nabijaczleweli@nabijaczleweli.xyz>, Cat Plus Plus <piotrlegnica@piotrl.pl>, Liigo <liigo@qq.com>, azyobuzin <azyobuzin@users.sourceforge.jp>, Peter Atashian <retep998@gmail.com>, pravic <ehysta@gmail.com>, Gabriel Majeri <gabriel.majeri6@gmail.com>, SonnyX, Johan Andersson <repi@repi.se>, Jordan Poles <jpdev.noreply@gmail.com>, MSxDOS <melcodos@gmail.com>, Jim McGrath <jimmc2@gmail.com>, roblabla <unfiltered@roblab.la>, Jasper Bekkers <jasper@traverseresearch.nl>, Richard Markiewicz <rmarkiewicz@devolutions.net>, Emerson de Freitas Barcelos <emersonfxbx@gmail.com>, Li Keqing <me@kaze.ai>, Alexis Bourget <alexis.bourget@gmail.com>, Michael Farrell <micolous+git@gmail.com>, Jacob Okamoto <oko@oko.io>, Marijn Suijten <marijn@traverseresearch.nl>, Lucas Nogueira <lucas@tauri.app>, CharlesChen0823 <yongchen0823@gmail.com>, Daniel Schaefer <dhs@frame.work>, Rene Leonhardt, ssrlive, Kan-Ru Chen <kanru@kanru.info>, Tony <legendmastertony@gmail.com>
+- Authors: наб <nabijaczleweli@nabijaczleweli.xyz>, Cat Plus Plus <piotrlegnica@piotrl.pl>, Liigo <liigo@qq.com>, azyobuzin <azyobuzin@users.sourceforge.jp>, Peter Atashian <retep998@gmail.com>, pravic <ehysta@gmail.com>, Gabriel Majeri <gabriel.majeri6@gmail.com>, SonnyX, Johan Andersson <repi@repi.se>, Jordan Poles <jpdev.noreply@gmail.com>, MSxDOS <melcodos@gmail.com>, Jim McGrath <jimmc2@gmail.com>, roblabla <unfiltered@roblab.la>, Jasper Bekkers <jasper@traverseresearch.nl>, Richard Markiewicz <rmarkiewicz@devolutions.net>, Emerson de Freitas Barcelos <emersonfxbx@gmail.com>, Li Keqing <me@kaze.ai>, Alexis Bourget <alexis.bourget@gmail.com>, Michael Farrell <micolous+git@gmail.com>, Jacob Okamoto <oko@oko.io>, Marijn Suijten <marijn@traverseresearch.nl>, Lucas Nogueira <lucas@tauri.app>, CharlesChen0823 <yongchen0823@gmail.com>, Daniel Schaefer <dhs@frame.work>, Rene Leonhardt, ssrlive, Kan-Ru Chen <kanru@kanru.info>, Tony <legendmastertony@gmail.com>, Berrysoft <Strawberry_Str@hotmail.com>, Marcus Ahlberg <marcus.ahlberg@kvaser.com>
 - Source: https://github.com/nabijaczleweli/rust-embed-resource
 
 #### LICENSE
@@ -9661,7 +9661,7 @@ TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 THIS SOFTWARE.
 ```
 
-### inotify-sys 0.1.5
+### inotify-sys 0.1.7
 
 - License: ISC
 - Authors: Hanno Braun <hb@hannobraun.de>
@@ -14051,7 +14051,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### rand 0.10.1
+### rand 0.10.2
 
 - License: MIT OR Apache-2.0
 - Authors: The Rand Project Developers, The Rust Project Developers
@@ -15218,7 +15218,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 ```
 
-### rustls-pki-types 1.14.1
+### rustls-pki-types 1.15.0
 
 - License: MIT OR Apache-2.0
 - Source: https://github.com/rustls/pki-types
@@ -17428,7 +17428,7 @@ DEALINGS IN THE SOFTWARE.
 
 _See the [full text of the Apache License 2.0](#apache-20)._
 
-### tauri 2.11.3
+### tauri 2.11.5
 
 - License: Apache-2.0 OR MIT
 - Authors: Tauri Programme within The Commons Conservancy
@@ -17799,7 +17799,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### tauri-runtime-wry 2.11.3
+### tauri-runtime-wry 2.11.4
 
 - License: Apache-2.0 OR MIT
 - Authors: Tauri Programme within The Commons Conservancy
@@ -18142,7 +18142,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 ```
 
-### time 0.3.47
+### time 0.3.53
 
 - License: MIT OR Apache-2.0
 - Authors: Jacob Pratt <open-source@jhpratt.dev>, Time contributors
@@ -18176,7 +18176,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### time-core 0.1.8
+### time-core 0.1.9
 
 - License: MIT OR Apache-2.0
 - Authors: Jacob Pratt <open-source@jhpratt.dev>, Time contributors
@@ -18210,7 +18210,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### time-macros 0.2.27
+### time-macros 0.2.31
 
 - License: MIT OR Apache-2.0
 - Authors: Jacob Pratt <open-source@jhpratt.dev>, Time contributors
@@ -22152,7 +22152,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### zlib-rs 0.6.4
+### zlib-rs 0.6.5
 
 - License: Zlib
 - Source: https://github.com/trifectatechfoundation/zlib-rs
