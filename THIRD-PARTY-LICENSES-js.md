@@ -1197,7 +1197,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @napi-rs/canvas 1.0.1
+### @napi-rs/canvas 1.0.2
 
 - License: MIT
 - Source: git+https://github.com/Brooooooklyn/canvas.git
@@ -6007,7 +6007,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### prosemirror-view 1.41.9
+### prosemirror-view 1.42.0
 
 - License: MIT
 - Source: git+https://code.haverbeke.berlin/prosemirror/prosemirror-view.git
