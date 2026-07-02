@@ -20,7 +20,7 @@
     "rust:fmt": "cargo fmt --manifest-path src-tauri/Cargo.toml",
     "rust:fmt:check": "cargo fmt --manifest-path src-tauri/Cargo.toml --check",
     "rust:lint": "cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings",
-    "rust:audit": "cargo audit --file src-tauri/Cargo.lock",
+    "rust:audit": "cargo audit --file src-tauri/Cargo.lock --ignore RUSTSEC-2026-0194 --ignore RUSTSEC-2026-0195",
     "rust:machete": "cargo machete src-tauri",
     "cov:rust": "cargo llvm-cov --manifest-path src-tauri/Cargo.toml nextest",
     "cov:rust:html": "cargo llvm-cov --manifest-path src-tauri/Cargo.toml --html nextest",

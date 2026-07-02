@@ -31,7 +31,7 @@ toml = "0.8"
 walkdir = "2"
 globset = "0.4"
 unicode-normalization = "0.1"
-quick-xml = "0.39.2"
+quick-xml = "0.41"
 zip = "8.5.1"
 tantivy = { version = "0.25", features = ["zstd-compression"] }
 lindera = { version = "2.0.1", features = ["embed-ipadic"] }
