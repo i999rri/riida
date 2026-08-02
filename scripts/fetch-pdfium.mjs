@@ -21,7 +21,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const VERSION = process.env.PDFIUM_VERSION ?? "7749";
@@ -72,9 +72,10 @@ async function main() {
     }
     writeFileSync(tgz, Buffer.from(await res.arrayBuffer()));
 
-    // tar is bsdtar on Windows runners and GNU tar on mac/linux; both extract
-    // a .tgz with this form. Extract everything, then copy the files we keep.
-    execFileSync("tar", ["-xzf", tgz, "-C", work], { stdio: "inherit" });
+    // Extract from inside `work` with a bare file name: GNU tar (which a Git
+    // for Windows install puts ahead of the system bsdtar on PATH) reads an
+    // absolute `C:\...` argument as a remote `host:path` and fails to resolve.
+    execFileSync("tar", ["-xzf", basename(tgz)], { cwd: work, stdio: "inherit" });
 
     const innerLib = join(work, innerPath);
     if (!existsSync(innerLib)) {
