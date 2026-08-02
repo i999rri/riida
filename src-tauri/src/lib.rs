@@ -63,10 +63,13 @@ static PDFIUM_DIR: OnceLock<Option<PathBuf>> = OnceLock::new();
 fn should_allow_internal_navigation(url: &Url) -> bool {
     match url.scheme() {
         "tauri" | "about" | "blob" | "data" | "file" | "asset" | "ipc" => true,
-        "http" | "https" => matches!(
-            url.host_str(),
-            Some("localhost") | Some("127.0.0.1") | Some("asset.localhost") | Some("ipc.localhost")
-        ),
+        // Windows serves the app itself, IPC, and every custom scheme from
+        // `<name>.localhost` subdomains instead of macOS's `tauri://`.
+        "http" | "https" => match url.host_str() {
+            Some("localhost") | Some("127.0.0.1") => true,
+            Some(host) => host.ends_with(".localhost"),
+            None => false,
+        },
         _ => false,
     }
 }
@@ -6607,6 +6610,22 @@ mod tests {
 
         // Unknown scheme is rejected.
         assert!(!allow("ftp://localhost/x"));
+    }
+
+    #[test]
+    fn should_allow_internal_navigation_allows_windows_localhost_subdomains() {
+        let allow = |u: &str| should_allow_internal_navigation(&Url::parse(u).unwrap());
+
+        // Rejecting these cancelled the app's own startup navigation on Windows
+        // and handed it to the system browser, leaving the window blank.
+        assert!(allow("http://tauri.localhost/"));
+        assert!(allow("https://tauri.localhost/"));
+        assert!(allow("http://ipc.localhost/"));
+        assert!(allow("http://riida-epub.localhost/img?file=a&entry=b"));
+
+        // The suffix must fall on a label boundary.
+        assert!(!allow("https://tauri.localhost.example.com/"));
+        assert!(!allow("https://notlocalhost/"));
     }
 
     #[test]
