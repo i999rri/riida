@@ -4,6 +4,7 @@ node_modules/
 target/
 dist/
 dist-ssr/
+mcp-server/plugin-bundle/
 coverage/
 reports/
 .stryker-tmp/

@@ -33,6 +33,7 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
+    "package:plugin": "npm run build && node scripts/build-plugin-bundle.mjs",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
