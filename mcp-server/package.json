@@ -23,7 +23,9 @@
     "riida-mcp": "dist/index.js"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "plugin.json",
+    "mcp.json"
   ],
   "engines": {
     "node": ">=22"

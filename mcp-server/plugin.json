@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "riida-mcp",
+  "version": "0.2.1",
+  "description": "MCP server for riida — infer and update book metadata from PDF content and file paths",
+  "author": {
+    "name": "USAMI Kenta",
+    "email": "tadsan@zonu.me"
+  },
+  "homepage": "https://github.com/zonuexe/riida/tree/master/mcp-server",
+  "repository": "https://github.com/zonuexe/riida",
+  "license": "MPL-2.0",
+  "keywords": ["mcp", "model-context-protocol", "pdf", "ebook", "metadata", "riida"]
+}
