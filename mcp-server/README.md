@@ -4,7 +4,7 @@ MCP server for [riida](https://github.com/zonuexe/riida) — infer and update bo
 
 ## Requirements
 
-- Node.js 20 or later
+- Node.js 22 or later
 - [riida](https://github.com/zonuexe/riida) installed and run at least once (creates the database)
 - *(optional)* poppler's `pdftotext` on `PATH` — improves `read_pdf_colophon` ISBN coverage for PDFs whose colophon fonts pdf.js cannot read (`brew install poppler` / `apt install poppler-utils`)
 
