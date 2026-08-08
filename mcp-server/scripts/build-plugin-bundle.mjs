@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-// Assembles a self-contained Agent Plugin bundle (https://agent-plugins.org/)
-// under plugin-bundle/: plugin.json + mcp.json + a built dist/ + production-only
-// node_modules, so a plugin client can run it without a separate npm install.
+// Assembles a self-contained plugin bundle under plugin-bundle/: the
+// agent-plugins.org (https://agent-plugins.org/) manifest (plugin.json,
+// mcp.json), the Claude Code native manifest (.claude-plugin/plugin.json,
+// .mcp.json), a built dist/, and production-only node_modules — so either
+// kind of plugin client can run it without a separate build or npm install.
 // Run `npm run build` first (or via `npm run package:plugin`, which chains it).
 
 import { execFileSync } from "node:child_process";
@@ -28,6 +30,11 @@ fs.mkdirSync(bundleDir, { recursive: true });
 
 copyFile(path.join(packageRoot, "plugin.json"), path.join(bundleDir, "plugin.json"));
 copyFile(path.join(packageRoot, "mcp.json"), path.join(bundleDir, "mcp.json"));
+copyFile(
+  path.join(packageRoot, ".claude-plugin", "plugin.json"),
+  path.join(bundleDir, ".claude-plugin", "plugin.json"),
+);
+copyFile(path.join(packageRoot, ".mcp.json"), path.join(bundleDir, ".mcp.json"));
 copyFile(path.join(packageRoot, "README.md"), path.join(bundleDir, "README.md"));
 copyFile(path.join(repoRoot, "LICENSE"), path.join(bundleDir, "LICENSE"));
 copyFile(path.join(packageRoot, "package.json"), path.join(bundleDir, "package.json"));
