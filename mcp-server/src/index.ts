@@ -1227,7 +1227,19 @@ export function createServer(options: CreateServerOptions = {}): Server {
 // Entry point — only runs when executed directly, not when imported by tests
 // ---------------------------------------------------------------------------
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+// realpathSync on both sides so this still matches when invoked through a
+// symlink (e.g. macOS /tmp -> /private/tmp) — plain argv[1] comparison silently
+// no-ops in that case, since fileURLToPath(import.meta.url) is always resolved.
+function isEntryPoint(): boolean {
+  if (!process.argv[1]) return false;
+  try {
+    return fs.realpathSync(process.argv[1]) === fs.realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+
+if (isEntryPoint()) {
   const transport = new StdioServerTransport();
   await createServer().connect(transport);
 }
