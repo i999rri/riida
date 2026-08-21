@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-08-22
+
+### Added
+
+- The MCP server can now be installed as an Agent Plugin instead of being wired up by hand. It ships a plugin manifest (including a Claude Code native one) and a packaging script that produces a self-contained bundle.
+
+### Fixed
+
+- Searching inside a PDF now highlights the text it actually matched. Highlights drifted further and further from the match as it appeared lower on the page, so the wrong characters were marked — most noticeable in Japanese books, where a page carries many line breaks.
+- The clear button and the save-as-shelf bookmark button in the sidebar search field no longer sit on top of each other. The field now uses its own clear button rather than the one the system draws.
+- The MCP server no longer quits without a word when it is started through a symlinked path.
+
+### Security
+
+- Bundled dependencies were updated so that the last copy of the XML parser used for EPUB and PDF files (quick-xml) carrying denial-of-service advisories is gone from the build. The dependency audit now runs with no advisory waived.
+
 ## [0.8.0] - 2026-07-03
 
 ### Added
@@ -435,7 +451,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reading progress counters and page-tracking UI were removed in favor of position restore only.
 
-[Unreleased]: https://github.com/zonuexe/riida/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/zonuexe/riida/compare/v0.8.1...HEAD
+[0.8.1]: https://github.com/zonuexe/riida/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/zonuexe/riida/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/zonuexe/riida/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/zonuexe/riida/compare/v0.6.1...v0.6.2
