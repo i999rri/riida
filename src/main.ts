@@ -7277,9 +7277,9 @@ function renderMain(snapshot: LibrarySnapshot) {
     searchInput.value = viewerState.searchQuery;
   }
 
-  const searchSaveEl = document.querySelector<HTMLButtonElement>("#sidebar-search-save");
-  if (searchSaveEl) {
-    searchSaveEl.hidden = viewerState.searchQuery.trim().length === 0;
+  const searchActionsEl = document.querySelector<HTMLElement>("#sidebar-search-actions");
+  if (searchActionsEl) {
+    searchActionsEl.hidden = viewerState.searchQuery.trim().length === 0;
   }
 
   if (tagDirectFilterEl && tagDirectOnlyEl) {
@@ -7742,6 +7742,31 @@ window.addEventListener("DOMContentLoaded", async () => {
     const presetQuery = viewerState.searchQuery.trim();
     if (presetQuery.length === 0) return;
     openShelfEditor(undefined, presetQuery);
+  });
+
+  const sidebarSearchClearEl = document.querySelector<HTMLButtonElement>("#sidebar-search-clear");
+  sidebarSearchClearEl?.addEventListener("click", () => {
+    if (librarySearchTimer !== null) {
+      window.clearTimeout(librarySearchTimer);
+      librarySearchTimer = null;
+    }
+    if (searchInput) {
+      searchInput.value = "";
+      closeSearchSuggestions();
+      searchInput.focus();
+    }
+    void navigateToState(
+      {
+        bookFilePath: null,
+        activeDirectory: null,
+        activeTag: null,
+        activeExternalSource: null,
+        activeShelf: null,
+        activeTagDirectOnly: false,
+        searchQuery: "",
+      },
+      "replace",
+    );
   });
 
   sidebarHomeOpenEl?.addEventListener("click", () => {

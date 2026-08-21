@@ -52,16 +52,26 @@
               aria-expanded="false"
               aria-controls="library-search-suggestions"
             />
-            <button
-              id="sidebar-search-save"
-              class="sidebar-search-save"
-              type="button"
-              aria-label="Save current search as a shelf"
-              title="Save current search as a shelf"
-              hidden
-            >
-              <i class="fa-solid fa-bookmark" aria-hidden="true"></i>
-            </button>
+            <span id="sidebar-search-actions" class="sidebar-search-actions" hidden>
+              <button
+                id="sidebar-search-save"
+                class="sidebar-search-save"
+                type="button"
+                aria-label="Save current search as a shelf"
+                title="Save current search as a shelf"
+              >
+                <i class="fa-solid fa-bookmark" aria-hidden="true"></i>
+              </button>
+              <button
+                id="sidebar-search-clear"
+                class="sidebar-search-clear"
+                type="button"
+                aria-label="Clear search"
+                title="Clear search"
+              >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </span>
             <ul
               id="library-search-suggestions"
               class="library-search-suggestions"
