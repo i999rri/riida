@@ -1,6 +1,6 @@
 ---
 name: riida-release-prep
-description: Cut a riida release on a `release/x.y.z` branch — bump the app version, update the changelog, regenerate bundled third-party license notices, verify, then merge the pull request once every CI check is green and tag the merge commit. Use when the user asks to prepare the next version, cut or tag a release, refresh release metadata, or make sure versioned files are consistent.
+description: Cut a riida release on a `release/x.y.z` branch — bump the app version, update the changelog, regenerate bundled third-party license notices, verify, merge the pull request once every CI check is green, tag the merge commit, and publish the GitHub Release from the changelog section. Use when the user asks to prepare the next version, cut or tag a release, write or fix release notes, refresh release metadata, or make sure versioned files are consistent.
 metadata:
   internal: true
 ---
@@ -132,8 +132,48 @@ git push origin vx.y.z
 ```
 
 The tag belongs on the merge commit. Pushing a `v*` tag starts the Linux,
-macOS, and Windows release workflows, which build the app and publish a
-GitHub Release — confirm with the user before that final push.
+macOS, and Windows release workflows — confirm with the user before that final
+push, since it is what puts the release in front of the world.
+
+## 8. Publish the GitHub Release
+
+Each release workflow attaches its bundles to one shared **draft** release
+named `riida vx.y.z`. Once all three platforms have finished, replace that
+placeholder name and body with the real ones and publish.
+
+The release name is the `CHANGELOG.md` heading with its `## ` prefix removed,
+for example `[0.8.1] - 2026-08-22`. The body is three blocks separated by a
+blank line:
+
+1. That version's `CHANGELOG.md` section, with `###` demoted to `##`:
+
+   ```bash
+   awk -v v="x.y.z" '$0 ~ "^## \\["v"\\] - " {i=1;next} i && /^## / {exit} i' CHANGELOG.md | sed 's/^### /## /'
+   ```
+
+2. `**Full Changelog**: https://github.com/zonuexe/riida/compare/vPREV...vx.y.z`
+3. The macOS quarantine note, verbatim from
+   [macos-quarantine-note.md](macos-quarantine-note.md).
+
+```bash
+gh release edit vx.y.z --title "<heading>" --notes-file <body-file> --draft=false
+```
+
+Then take the same note off the previous release, so the listing at
+<https://github.com/zonuexe/riida/releases> shows it once — on the newest
+release only. The trimmed body ends at its `**Full Changelog**` line.
+
+```bash
+gh release view vPREV --json body -q .body | tr -d '\r' > prev-body.md
+# drop the trailing macOS note block from prev-body.md
+gh release edit vPREV --notes-file prev-body.md
+```
+
+`gh` returns release bodies with CRLF line endings, so strip the carriage
+returns before matching them against the note file or diffing them.
+
+This step is done when the new release is published with all platform assets,
+carries the note, and the previous release no longer does.
 
 ## Quick Checklist
 
@@ -146,3 +186,6 @@ GitHub Release — confirm with the user before that final push.
 - `Bump up version to x.y.z` is the branch's final commit.
 - Every check on the PR passed before the merge.
 - The annotated tag `vx.y.z` sits on the merge commit.
+- The published release is named after the `CHANGELOG.md` heading and carries
+  the changelog section, the compare link, and the macOS quarantine note.
+- The previous release's note was removed, so the listing shows it once.
