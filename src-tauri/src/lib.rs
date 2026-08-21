@@ -4144,7 +4144,7 @@ impl FulltextChunk {
         };
         self.docs.clear();
         self.text_bytes = 0;
-        let mut rows: Vec<(String, i64, &'static str)> = self.books.drain(..).collect();
+        let mut rows: Vec<(String, i64, &'static str)> = std::mem::take(&mut self.books);
         if failed {
             for row in &mut rows {
                 row.2 = "failed";

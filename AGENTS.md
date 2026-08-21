@@ -754,6 +754,12 @@ nix --extra-experimental-features 'nix-command flakes' develop --command npm run
 ```
 
 `rust:lint` currently runs `cargo clippy --all-targets -- -D warnings`.
+Note that CI resolves its toolchain through `dtolnay/rust-toolchain@stable`
+while the dev shell uses whatever rustc the pinned nixpkgs provides, so CI
+is often on a newer stable. Clippy gains lints between releases, which means
+a clean local `npm run check:rust` does not guarantee a clean CI run — a new
+lint can fail there first. Fix such a lint at the source rather than
+`#[allow]`-ing it.
 `rust:machete` runs `cargo machete src-tauri` to detect unused
 Cargo dependencies. `rust:audit` runs `cargo audit` against the
 RustSec Advisory Database; by default it exits 0 on `unmaintained`
