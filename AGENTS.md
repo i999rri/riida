@@ -31,7 +31,13 @@ nix --extra-experimental-features 'nix-command flakes' develop --command npm run
 
 CI also checks the release gate:
 
-- Rust dependency licenses via `cargo-deny` using [deny.toml](deny.toml)
+- Rust dependency licenses via `cargo-deny` using [deny.toml](deny.toml).
+  CI installs the latest `cargo-deny`, so the invocation must stay
+  version-agnostic: do **not** pass `--config`, which moved from a `check`
+  option (<= 0.19) to a global-only one (>= 0.20) and therefore has no
+  position that parses on both. Running from the repo root picks up
+  `deny.toml` by default. This check is CI-only — `npm run check:release`
+  does not run it.
 - npm production dependency licenses via `license-checker`
 - PR dependency review via [.github/dependency-review-config.yml](.github/dependency-review-config.yml)
 - notice regeneration via [.github/workflows/license-check.yml](.github/workflows/license-check.yml)
