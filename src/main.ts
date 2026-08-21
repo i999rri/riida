@@ -153,6 +153,7 @@ import {
 } from "./viewer-settings-utils";
 import {
   buildPdfSearchPageIndex,
+  collectPdfTextLayerItems,
   findPdfSearchMatchesInPage,
   pickInitialMatchIndex,
   searchNormalize,
@@ -4503,15 +4504,13 @@ async function ensurePdfSearchPageIndex(pageNumber: number): Promise<PdfSearchPa
     const page = await session.pdfDocument.getPage(pageNumber);
     const stream = page.streamTextContent() as ReadableStream<{ items: Array<{ str?: string }> }>;
     const reader = stream.getReader();
+    // Only items that TextLayer renders as a text span may be indexed;
+    // `itemIndex` is resolved against the page's spans in DOM order.
     const allItems: Array<{ str: string }> = [];
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      for (const item of value.items) {
-        if (typeof item.str === "string") {
-          allItems.push({ str: item.str });
-        }
-      }
+      allItems.push(...collectPdfTextLayerItems(value.items));
     }
     const index = buildPdfSearchPageIndex(allItems);
     pdfSearchState.pageIndices.set(pageNumber, index);
@@ -4592,7 +4591,9 @@ function getPdfSearchMatchRange(match: PdfSearchMatch): Range | null {
   const textLayerEl = pageEl.querySelector(".textLayer");
   if (!textLayerEl) return null;
 
-  const spans = Array.from(textLayerEl.querySelectorAll<HTMLElement>("span"));
+  // Text spans in DOM order. `span.markedContent` wrappers (emitted when
+  // marked content is included) are containers, not text items.
+  const spans = Array.from(textLayerEl.querySelectorAll<HTMLElement>("span:not(.markedContent)"));
   const startSpan = spans[startChar.itemIndex];
   const endSpan = spans[endChar.itemIndex];
   if (!startSpan?.firstChild || !endSpan?.firstChild) return null;

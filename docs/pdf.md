@@ -243,6 +243,16 @@ PageDown のスクロール行動を pure に計算します。
 を引けるよう並列配列 (`normChars`) を持ち、ヒットしたら DOM 上の
 text span にハイライトを再構築します。
 
+`itemIndex` は `.textLayer` 内の text span を DOM 順に数えた添字としてそのまま
+使うので、インデックスに入れるアイテムは pdf.js の `TextLayer` が span を
+追加するものと 1 対 1 で一致していなければなりません。`TextLayer` は
+`str === ""` のアイテム（行末の `hasEOL` マーカーなど）の span を DOM に
+追加せず、marked-content マーカー (`str === undefined`) は `span.markedContent`
+ラッパーにしかならないため、`collectPdfTextLayerItems` で両方を落としてから
+`buildPdfSearchPageIndex` に渡します。DOM 側も `span:not(.markedContent)` で
+拾います。ここがずれると空アイテム 1 個ごとにハイライトが 1 span ぶん
+後ろへ流れていきます。
+
 ページ単位に lazy build (`ensurePdfSearchPageIndex(pageNumber)`)。
 
 ---

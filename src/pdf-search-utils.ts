@@ -40,6 +40,36 @@ export function searchNormalize(str: string): string {
 }
 
 /**
+ * Keep only the text-content items that PDF.js's `TextLayer` renders as
+ * a text `<span>` in the DOM, preserving their order.
+ *
+ * `TextLayer` skips two kinds of items when building the text layer:
+ *
+ * - marked-content markers (`str === undefined`; they become
+ *   `span.markedContent` wrappers, never text spans), and
+ * - empty items (`str === ""`, typically the `hasEOL` line-end markers):
+ *   a span object is created but, because `hasText` is false, it is
+ *   never appended to the container.
+ *
+ * The search index uses `itemIndex` as a direct index into the page's
+ * text spans, so it must count exactly the same items. Feeding anything
+ * else to `buildPdfSearchPageIndex` shifts every highlight after the
+ * first skipped item by one span (the classic "highlight lands a few
+ * characters to the right" bug).
+ */
+export function collectPdfTextLayerItems(
+  items: ReadonlyArray<{ str?: unknown }>,
+): Array<{ str: string }> {
+  const result: Array<{ str: string }> = [];
+  for (const item of items) {
+    if (typeof item.str === "string" && item.str !== "") {
+      result.push({ str: item.str });
+    }
+  }
+  return result;
+}
+
+/**
  * Build a per-page search index from PDF.js text items.
  *
  * The returned `normalizedText` is what the user query is matched
@@ -47,6 +77,11 @@ export function searchNormalize(str: string): string {
  * codepoint back to its source `(itemIndex, origOffset, origOffsetEnd)`
  * so that highlight ranges can be reconstructed against the actual
  * DOM text spans.
+ *
+ * `itemIndex` is the position within `items`, and the highlighter
+ * resolves it against the page's text spans in DOM order, so `items`
+ * must be exactly the span-producing items (see
+ * `collectPdfTextLayerItems`).
  */
 export function buildPdfSearchPageIndex(items: Array<{ str: string }>): PdfSearchPageIndex {
   const normChars: PdfSearchNormChar[] = [];
