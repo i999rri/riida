@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.2] - 2026-08-22
 
+Thanks to [@i999rri](https://github.com/i999rri), Windows builds work again starting with this release.
+
 ### Fixed
 
 - Windows release builds no longer open to a blank window. The app's own startup page was mistaken for an external link and handed to the system browser ([#14](https://github.com/zonuexe/riida/pull/14), thank you [@i999rri](https://github.com/i999rri)!)
