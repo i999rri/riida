@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildImageSpreads,
   computeImageFit,
+  epubImageEntryUrl,
   firstPageNumberOfSpread,
   type ImagePage,
   normalizeImagePages,
@@ -171,5 +172,33 @@ describe("computeImageFit", () => {
     expect(computeImageFit({ width: 0, height: 0 }, [{ width: 10, height: 10 }], 0)).toEqual([
       { widthPx: 0, heightPx: 0 },
     ]);
+  });
+});
+
+describe("epubImageEntryUrl", () => {
+  const windowsPath = "D:\\books\\comic.epub";
+
+  it("keeps the custom scheme origin macOS and Linux use", () => {
+    expect(epubImageEntryUrl("riida-epub://localhost", "/books/comic.epub", "img/p1.jpg")).toBe(
+      "riida-epub://localhost/img?file=%2Fbooks%2Fcomic.epub&entry=img%2Fp1.jpg",
+    );
+  });
+
+  it("keeps the http origin Windows and Android use, where no custom scheme exists", () => {
+    expect(epubImageEntryUrl("http://riida-epub.localhost", windowsPath, "img/p1.jpg")).toBe(
+      "http://riida-epub.localhost/img?file=D%3A%5Cbooks%5Ccomic.epub&entry=img%2Fp1.jpg",
+    );
+  });
+
+  it("does not double the separator when the origin ends in a slash", () => {
+    expect(epubImageEntryUrl("http://riida-epub.localhost/", "/a.epub", "b.jpg")).toBe(
+      "http://riida-epub.localhost/img?file=%2Fa.epub&entry=b.jpg",
+    );
+  });
+
+  it("escapes characters that would otherwise end the query parameter", () => {
+    const url = epubImageEntryUrl("riida-epub://localhost", "/a&b.epub", "x=1/p 1.jpg");
+    expect(url).toBe("riida-epub://localhost/img?file=%2Fa%26b.epub&entry=x%3D1%2Fp%201.jpg");
+    expect(new URL(url).searchParams.get("entry")).toBe("x=1/p 1.jpg");
   });
 });
