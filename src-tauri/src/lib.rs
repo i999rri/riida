@@ -4636,7 +4636,24 @@ fn fulltext_on_book_removed(file_path: &str) {
 /// Build the HTTP response for a `riida-epub` image request. `query` is the raw
 /// URL query (`file=<enc abs path>&entry=<enc zip entry>`); `home`, when set,
 /// confines reads to that directory (mirrors the asset-protocol `$HOME/**` scope).
-fn serve_epub_image(query: &str, home: Option<&Path>) -> tauri::http::Response<Vec<u8>> {
+/// Directories the `riida-epub` scheme may read from, read fresh per request so
+/// a root added from Settings applies without a relaunch. Canonicalized to match
+/// what the scope check gets back from `canonicalize` for a requested file.
+fn allowed_epub_roots(app: &AppHandle) -> Vec<PathBuf> {
+    let Some(state) = app.try_state::<ConfigState>() else {
+        return Vec::new();
+    };
+    let Ok(config) = state.config.lock() else {
+        return Vec::new();
+    };
+    config
+        .library_roots
+        .iter()
+        .filter_map(|root| std::fs::canonicalize(root).ok())
+        .collect()
+}
+
+fn serve_epub_image(query: &str, allowed_roots: &[PathBuf]) -> tauri::http::Response<Vec<u8>> {
     use tauri::http::{header, Response, StatusCode};
 
     let empty = |status: StatusCode| {
@@ -4662,15 +4679,15 @@ fn serve_epub_image(query: &str, home: Option<&Path>) -> tauri::http::Response<V
         return empty(StatusCode::BAD_REQUEST);
     };
 
-    // Confine reads to the user's home directory so the scheme cannot be abused
-    // as an arbitrary-file-read endpoint.
-    if let Some(home) = home {
-        let inside = std::fs::canonicalize(&file)
-            .map(|p| p.starts_with(home))
-            .unwrap_or(false);
-        if !inside {
-            return empty(StatusCode::FORBIDDEN);
-        }
+    // Confine reads to the configured library roots so the scheme cannot be
+    // abused as an arbitrary-file-read endpoint. An empty list allows nothing:
+    // a book is only ever opened from a root, so there is nothing legitimate
+    // left to serve once the configuration is unavailable.
+    let inside = std::fs::canonicalize(&file)
+        .map(|path| allowed_roots.iter().any(|root| path.starts_with(root)))
+        .unwrap_or(false);
+    if !inside {
+        return empty(StatusCode::FORBIDDEN);
     }
 
     match epub_image::read_zip_entry(&file, &entry) {
@@ -4737,16 +4754,9 @@ pub fn run() {
         // EPUB zip without unzipping the whole archive in JS. The frontend image
         // viewer points <img src> at riida-epub://localhost/img?file=..&entry=..
         .register_asynchronous_uri_scheme_protocol("riida-epub", |ctx, request, responder| {
-            let home = ctx
-                .app_handle()
-                .path()
-                .home_dir()
-                .ok()
-                .map(|h| std::fs::canonicalize(&h).unwrap_or(h));
+            let roots = allowed_epub_roots(ctx.app_handle());
             let query = request.uri().query().unwrap_or("").to_owned();
-            std::thread::spawn(move || {
-                responder.respond(serve_epub_image(&query, home.as_deref()))
-            });
+            std::thread::spawn(move || responder.respond(serve_epub_image(&query, &roots)));
         })
         .invoke_handler(tauri::generate_handler![
             library_snapshot,
@@ -4828,31 +4838,37 @@ mod tests {
         }
         // canonicalize so the scope check (which canonicalizes the file) matches
         // on platforms where temp_dir is a symlink (macOS /var -> /private/var).
-        let home = std::fs::canonicalize(&dir).unwrap();
+        let root = std::fs::canonicalize(&dir).unwrap();
         let query = format!(
             "file={}&entry={}",
             percent_encode_component(&zip_path.to_string_lossy()),
             percent_encode_component("item/image/a.jpg"),
         );
 
-        let ok = serve_epub_image(&query, Some(&home));
+        let roots = vec![root.clone()];
+        let ok = serve_epub_image(&query, &roots);
         assert_eq!(ok.status(), 200);
         assert_eq!(ok.headers().get("content-type").unwrap(), "image/jpeg");
         assert_eq!(ok.body(), &vec![0xFF, 0xD8, 0xFF, 0xD9]);
 
-        // A file outside the allowed home directory is rejected.
-        let elsewhere = home.join("nope");
-        let forbidden = serve_epub_image(&query, Some(&elsewhere));
-        assert_eq!(forbidden.status(), 403);
+        // A file outside every allowed root is rejected, and so is one that
+        // arrives with no roots configured at all.
+        let elsewhere = vec![root.join("nope")];
+        assert_eq!(serve_epub_image(&query, &elsewhere).status(), 403);
+        assert_eq!(serve_epub_image(&query, &[]).status(), 403);
+
+        // A root that does not cover the file does not cancel out one that does.
+        let mixed = vec![root.join("nope"), root.clone()];
+        assert_eq!(serve_epub_image(&query, &mixed).status(), 200);
 
         // Missing parameters are a bad request; a missing entry is a 404.
-        assert_eq!(serve_epub_image("file=x", None).status(), 400);
+        assert_eq!(serve_epub_image("file=x", &roots).status(), 400);
         let missing = format!(
             "file={}&entry={}",
             percent_encode_component(&zip_path.to_string_lossy()),
             percent_encode_component("item/image/missing.jpg"),
         );
-        assert_eq!(serve_epub_image(&missing, Some(&home)).status(), 404);
+        assert_eq!(serve_epub_image(&missing, &roots).status(), 404);
 
         std::fs::remove_dir_all(&dir).ok();
     }
