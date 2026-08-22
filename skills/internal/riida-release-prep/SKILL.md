@@ -149,10 +149,15 @@ The release name is the `CHANGELOG.md` heading with its `## ` prefix removed,
 for example `[0.8.1] - 2026-08-22`. The body is three blocks separated by a
 blank line:
 
-1. That version's `CHANGELOG.md` section, with `###` demoted to `##`:
+1. That version's `CHANGELOG.md` section, with `###` demoted to `##` and the
+   changelog's Markdown links to pull requests, issues, and people reduced to
+   bare URLs and `@handles` — GitHub renders those as expanded references
+   (`#14` with its title, a linked avatar) in a release body, which a
+   Markdown link suppresses:
 
    ```bash
-   awk -v v="x.y.z" '$0 ~ "^## \\["v"\\] - " {i=1;next} i && /^## / {exit} i' CHANGELOG.md | sed 's/^### /## /'
+   awk -v v="x.y.z" '$0 ~ "^## \\["v"\\] - " {i=1;next} i && /^## / {exit} i' CHANGELOG.md \
+     | sed -E 's|^### |## |; s|\[#([0-9]+)\]\((https://github\.com/[^)]+)\)|\2|g; s|\[(@[A-Za-z0-9-]+)\]\(https://github\.com/[^)]+\)|\1|g'
    ```
 
 2. `**Full Changelog**: https://github.com/zonuexe/riida/compare/vPREV...vx.y.z`
