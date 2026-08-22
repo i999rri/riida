@@ -2675,6 +2675,11 @@ fn save_app_config(
         *config = next_config.clone();
     }
 
+    // A root added here has to reach the scope now; the startup registration
+    // will not run again until the next launch. The scope only grows, so a
+    // removed root stays readable until then.
+    allow_library_roots_in_asset_scope(&app, &next_config);
+
     emit_library_snapshot(&app, &next_config)?;
     Ok(app_config_to_payload(&next_config))
 }
@@ -4685,6 +4690,22 @@ fn serve_epub_image(query: &str, home: Option<&Path>) -> tauri::http::Response<V
     }
 }
 
+/// Widen the asset protocol scope to the configured library roots.
+///
+/// `tauri.conf.json` can only declare a static scope, and `$HOME/**` never
+/// matches a root on another drive or outside the home directory. Without this
+/// the viewer's `convertFileSrc` URL is rejected and the book never loads, with
+/// no error surfaced anywhere. Roots reach here already expanded by
+/// `load_config_file`, so `~` is resolved by the time the pattern is built.
+fn allow_library_roots_in_asset_scope(app: &AppHandle, config: &AppConfig) {
+    let scope = app.asset_protocol_scope();
+    for root in &config.library_roots {
+        if let Err(error) = scope.allow_directory(root, true) {
+            eprintln!("[riida] failed to allow {root} in the asset protocol scope: {error}");
+        }
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -4703,6 +4724,7 @@ pub fn run() {
             initialize_database()?;
             migrate_legacy_config_if_needed(&paths.config_file)?;
             let config = load_config()?;
+            allow_library_roots_in_asset_scope(app.handle(), &config);
             start_library_watcher(app.handle().clone(), config.clone())?;
             app.manage(ConfigState {
                 config: Mutex::new(config),
