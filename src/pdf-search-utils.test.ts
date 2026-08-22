@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import fc from "fast-check";
 import {
   buildPdfSearchPageIndex,
+  collectPdfTextLayerItems,
   findPdfSearchMatchesInPage,
   pickInitialMatchIndex,
   searchNormalize,
@@ -36,7 +37,80 @@ describe("searchNormalize", () => {
   });
 });
 
+describe("collectPdfTextLayerItems", () => {
+  test("drops empty-string items (TextLayer never appends their span)", () => {
+    // A typical pdf.js stream: text, then an `hasEOL` marker with str "".
+    const items = [
+      { str: "たが、こ", hasEOL: false },
+      { str: "", hasEOL: true },
+      { str: "ファイル", hasEOL: false },
+    ];
+    expect(collectPdfTextLayerItems(items)).toEqual([{ str: "たが、こ" }, { str: "ファイル" }]);
+  });
+
+  test("drops marked-content markers (no str)", () => {
+    const items = [
+      { type: "beginMarkedContent", tag: "P" },
+      { str: "abc" },
+      { type: "endMarkedContent" },
+      { str: 42 },
+      { str: "def" },
+    ];
+    expect(collectPdfTextLayerItems(items)).toEqual([{ str: "abc" }, { str: "def" }]);
+  });
+
+  test("keeps whitespace-only items (TextLayer renders them as spans)", () => {
+    expect(collectPdfTextLayerItems([{ str: " " }])).toEqual([{ str: " " }]);
+  });
+
+  test("returns an empty array for no items", () => {
+    expect(collectPdfTextLayerItems([])).toEqual([]);
+  });
+
+  test("output never contains an empty or non-string str", () => {
+    fc.assert(
+      fc.property(
+        fc.array(
+          fc.record(
+            { str: fc.option(fc.oneof(fc.string(), fc.integer())) },
+            {
+              requiredKeys: [],
+            },
+          ),
+        ),
+        (items) => collectPdfTextLayerItems(items).every((i) => i.str !== ""),
+      ),
+    );
+    expect(true).toBe(true);
+  });
+
+  test("preserves the relative order of the kept items", () => {
+    fc.assert(
+      fc.property(fc.array(fc.record({ str: fc.string() })), (items) => {
+        const kept = collectPdfTextLayerItems(items);
+        const expected = items.filter((i) => i.str !== "").map((i) => i.str);
+        return kept.map((i) => i.str).join("\u0000") === expected.join("\u0000");
+      }),
+    );
+    expect(true).toBe(true);
+  });
+});
+
 describe("buildPdfSearchPageIndex", () => {
+  test("itemIndex matches the span order once empty items are filtered out", () => {
+    // Regression: with the empty `hasEOL` item counted, the match for
+    // "ファイル" pointed at itemIndex 2, but the DOM only had two spans
+    // (index 0 and 1), so the highlight landed on the wrong span.
+    const stream = [{ str: "たが、こ" }, { str: "" }, { str: "ファイル" }];
+    const index = buildPdfSearchPageIndex(collectPdfTextLayerItems(stream));
+    const [match] = findPdfSearchMatchesInPage(index.normalizedText, "ファイル", 1);
+    expect(match).toBeDefined();
+    const startChar = index.normChars[match!.normalizedStart];
+    const endChar = index.normChars[match!.normalizedEnd - 1];
+    expect(startChar).toEqual({ itemIndex: 1, origOffset: 0, origOffsetEnd: 1 });
+    expect(endChar).toEqual({ itemIndex: 1, origOffset: 3, origOffsetEnd: 4 });
+  });
+
   test("normalizedText length equals normChars length", () => {
     fc.assert(
       fc.property(fc.array(fc.record({ str: fc.string() })), (items) => {

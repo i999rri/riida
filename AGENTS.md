@@ -31,7 +31,13 @@ nix --extra-experimental-features 'nix-command flakes' develop --command npm run
 
 CI also checks the release gate:
 
-- Rust dependency licenses via `cargo-deny` using [deny.toml](deny.toml)
+- Rust dependency licenses via `cargo-deny` using [deny.toml](deny.toml).
+  CI installs the latest `cargo-deny`, so the invocation must stay
+  version-agnostic: do **not** pass `--config`, which moved from a `check`
+  option (<= 0.19) to a global-only one (>= 0.20) and therefore has no
+  position that parses on both. Running from the repo root picks up
+  `deny.toml` by default. This check is CI-only — `npm run check:release`
+  does not run it.
 - npm production dependency licenses via `license-checker`
 - PR dependency review via [.github/dependency-review-config.yml](.github/dependency-review-config.yml)
 - notice regeneration via [.github/workflows/license-check.yml](.github/workflows/license-check.yml)
@@ -748,6 +754,12 @@ nix --extra-experimental-features 'nix-command flakes' develop --command npm run
 ```
 
 `rust:lint` currently runs `cargo clippy --all-targets -- -D warnings`.
+Note that CI resolves its toolchain through `dtolnay/rust-toolchain@stable`
+while the dev shell uses whatever rustc the pinned nixpkgs provides, so CI
+is often on a newer stable. Clippy gains lints between releases, which means
+a clean local `npm run check:rust` does not guarantee a clean CI run — a new
+lint can fail there first. Fix such a lint at the source rather than
+`#[allow]`-ing it.
 `rust:machete` runs `cargo machete src-tauri` to detect unused
 Cargo dependencies. `rust:audit` runs `cargo audit` against the
 RustSec Advisory Database; by default it exits 0 on `unmaintained`
@@ -755,17 +767,9 @@ warnings (mostly transitive GTK / Tauri ecosystem crates we cannot
 fix locally) and exits non-zero when an actual vulnerability is
 reported.
 
-`rust:audit` ignores two advisories via `--ignore`:
-
-- `RUSTSEC-2026-0194` / `RUSTSEC-2026-0195` — `quick-xml` DoS advisories
-  (quadratic duplicate-attribute scan; unbounded namespace-declaration
-  allocation), fixed in quick-xml `>= 0.41`. Our **direct** dependency is
-  already on 0.41, but `quick-xml 0.39.x` is still pulled transitively by
-  `tauri -> plist`, which parses build-time / bundle `.plist` files (not
-  attacker-controlled runtime input). We cannot bump that copy until
-  `plist` (and the `tauri` release depending on it) upgrade. **Remove
-  these ignores once `cargo tree -i quick-xml` no longer shows a `0.39.x`
-  (or any `< 0.41`) copy.**
+`rust:audit` currently carries no `--ignore` entries. If a transitive
+advisory ever has to be waived, record the reason and the removal
+condition here alongside the flag.
 
 Project defaults live in
 [src-tauri/.cargo/mutants.toml](src-tauri/.cargo/mutants.toml) —

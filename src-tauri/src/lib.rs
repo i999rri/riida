@@ -4147,7 +4147,7 @@ impl FulltextChunk {
         };
         self.docs.clear();
         self.text_bytes = 0;
-        let mut rows: Vec<(String, i64, &'static str)> = self.books.drain(..).collect();
+        let mut rows: Vec<(String, i64, &'static str)> = std::mem::take(&mut self.books);
         if failed {
             for row in &mut rows {
                 row.2 = "failed";
@@ -5387,8 +5387,17 @@ mod tests {
     }
 
     fn unique_temp_dir(label: &str) -> PathBuf {
+        // A timestamp alone is not unique: macOS reports `SystemTime::now()`
+        // at microsecond resolution, and nextest starts tests in parallel
+        // processes, so two tests launched in the same microsecond shared a
+        // directory and raced over its files. The process id separates
+        // nextest's per-test processes; the counter separates threads within
+        // one process (`cargo test`).
+        static COUNTER: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
         let path = std::env::temp_dir().join(format!(
-            "riida-test-{label}-{}",
+            "riida-test-{label}-{}-{}-{}",
+            std::process::id(),
+            COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed),
             std::time::SystemTime::now()
                 .duration_since(UNIX_EPOCH)
                 .expect("time should move forward")

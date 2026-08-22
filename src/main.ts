@@ -153,6 +153,7 @@ import {
 } from "./viewer-settings-utils";
 import {
   buildPdfSearchPageIndex,
+  collectPdfTextLayerItems,
   findPdfSearchMatchesInPage,
   pickInitialMatchIndex,
   searchNormalize,
@@ -553,7 +554,7 @@ let pdfZoomScale = 1;
 let lastAppConfig: AppConfigPayload | null = null;
 let cachedHomeDir: string | null = null;
 let cachedAppName = "riida";
-let cachedAppVersion = "0.8.0";
+let cachedAppVersion = "0.8.2";
 const buildDate = __BUILD_DATE__;
 let cachedLicenseText = "Loading license text...";
 let cachedThirdPartyRustText = "Loading Rust notices...";
@@ -4503,15 +4504,13 @@ async function ensurePdfSearchPageIndex(pageNumber: number): Promise<PdfSearchPa
     const page = await session.pdfDocument.getPage(pageNumber);
     const stream = page.streamTextContent() as ReadableStream<{ items: Array<{ str?: string }> }>;
     const reader = stream.getReader();
+    // Only items that TextLayer renders as a text span may be indexed;
+    // `itemIndex` is resolved against the page's spans in DOM order.
     const allItems: Array<{ str: string }> = [];
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      for (const item of value.items) {
-        if (typeof item.str === "string") {
-          allItems.push({ str: item.str });
-        }
-      }
+      allItems.push(...collectPdfTextLayerItems(value.items));
     }
     const index = buildPdfSearchPageIndex(allItems);
     pdfSearchState.pageIndices.set(pageNumber, index);
@@ -4592,7 +4591,9 @@ function getPdfSearchMatchRange(match: PdfSearchMatch): Range | null {
   const textLayerEl = pageEl.querySelector(".textLayer");
   if (!textLayerEl) return null;
 
-  const spans = Array.from(textLayerEl.querySelectorAll<HTMLElement>("span"));
+  // Text spans in DOM order. `span.markedContent` wrappers (emitted when
+  // marked content is included) are containers, not text items.
+  const spans = Array.from(textLayerEl.querySelectorAll<HTMLElement>("span:not(.markedContent)"));
   const startSpan = spans[startChar.itemIndex];
   const endSpan = spans[endChar.itemIndex];
   if (!startSpan?.firstChild || !endSpan?.firstChild) return null;
@@ -7276,9 +7277,9 @@ function renderMain(snapshot: LibrarySnapshot) {
     searchInput.value = viewerState.searchQuery;
   }
 
-  const searchSaveEl = document.querySelector<HTMLButtonElement>("#sidebar-search-save");
-  if (searchSaveEl) {
-    searchSaveEl.hidden = viewerState.searchQuery.trim().length === 0;
+  const searchActionsEl = document.querySelector<HTMLElement>("#sidebar-search-actions");
+  if (searchActionsEl) {
+    searchActionsEl.hidden = viewerState.searchQuery.trim().length === 0;
   }
 
   if (tagDirectFilterEl && tagDirectOnlyEl) {
@@ -7741,6 +7742,31 @@ window.addEventListener("DOMContentLoaded", async () => {
     const presetQuery = viewerState.searchQuery.trim();
     if (presetQuery.length === 0) return;
     openShelfEditor(undefined, presetQuery);
+  });
+
+  const sidebarSearchClearEl = document.querySelector<HTMLButtonElement>("#sidebar-search-clear");
+  sidebarSearchClearEl?.addEventListener("click", () => {
+    if (librarySearchTimer !== null) {
+      window.clearTimeout(librarySearchTimer);
+      librarySearchTimer = null;
+    }
+    if (searchInput) {
+      searchInput.value = "";
+      closeSearchSuggestions();
+      searchInput.focus();
+    }
+    void navigateToState(
+      {
+        bookFilePath: null,
+        activeDirectory: null,
+        activeTag: null,
+        activeExternalSource: null,
+        activeShelf: null,
+        activeTagDirectOnly: false,
+        searchQuery: "",
+      },
+      "replace",
+    );
   });
 
   sidebarHomeOpenEl?.addEventListener("click", () => {

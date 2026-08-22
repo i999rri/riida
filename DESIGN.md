@@ -307,6 +307,16 @@ Behavior:
 - Active rows use a translucent accent fill
 - Search is pill-shaped and embedded in the sidebar tool stack
 
+Sidebar search inline actions:
+
+- The search field carries its own trailing action cluster, revealed only
+  while a query is present: save-as-shelf (bookmark) and clear.
+- Suppress the browser's native `type="search"` clear control and provide an
+  app-styled one instead; the native control lands on top of the cluster and
+  reads as browser chrome rather than desktop-app chrome.
+- The clear action stays lighter than the bookmark beside it — borderless and
+  unfilled at rest — so a narrow field never reads as two competing buttons.
+
 Sidebar collapse toggle:
 
 - Pill-shaped tab button anchored to the main-pane's left edge

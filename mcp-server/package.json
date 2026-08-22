@@ -23,25 +23,29 @@
     "riida-mcp": "dist/index.js"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "plugin.json",
+    "mcp.json"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
+    "package:plugin": "npm run build && node scripts/build-plugin-bundle.mjs",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.29.0",
-    "better-sqlite3": "^12.11.1",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "better-sqlite3": "^13.0.3",
     "pdf-parse": "^2.4.5"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
+    "@modelcontextprotocol/client": "^2.0.0",
+    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^26.0.0",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.9"
   }
 }

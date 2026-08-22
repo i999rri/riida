@@ -74,7 +74,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### @babel/parser 7.29.7
+### @babel/parser 7.29.8
 
 - License: MIT
 - Authors: The Babel Team (https://babel.dev/team)
@@ -104,7 +104,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @babel/types 7.29.7
+### @babel/types 7.29.8
 
 - License: MIT
 - Authors: The Babel Team (https://babel.dev/team)
@@ -169,7 +169,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @codemirror/state 6.7.0
+### @codemirror/state 6.7.1
 
 - License: MIT
 - Authors: Marijn Haverbeke <marijn@haverbeke.berlin> (http://marijnhaverbeke.nl)
@@ -201,7 +201,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @codemirror/view 6.43.4
+### @codemirror/view 6.43.9
 
 - License: MIT
 - Authors: Marijn Haverbeke <marijn@haverbeke.berlin> (http://marijnhaverbeke.nl)
@@ -233,7 +233,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @floating-ui/core 1.7.5
+### @floating-ui/core 1.8.0
 
 - License: MIT
 - Authors: atomiks
@@ -264,7 +264,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### @floating-ui/dom 1.7.6
+### @floating-ui/dom 1.8.0
 
 - License: MIT
 - Authors: atomiks
@@ -295,7 +295,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### @floating-ui/utils 0.2.11
+### @floating-ui/utils 0.2.12
 
 - License: MIT
 - Authors: atomiks
@@ -452,7 +452,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @marijn/find-cluster-break 1.0.3
+### @marijn/find-cluster-break 1.0.4
 
 - License: MIT
 - Authors: Marijn Haverbeke <marijn@haverbeke.berlin>
@@ -484,7 +484,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @milkdown/components 7.21.2
+### @milkdown/components 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -515,7 +515,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/core 7.21.2
+### @milkdown/core 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -546,7 +546,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/ctx 7.21.2
+### @milkdown/ctx 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -577,7 +577,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/exception 7.21.2
+### @milkdown/exception 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -608,7 +608,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/kit 7.21.2
+### @milkdown/kit 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -639,7 +639,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-block 7.21.2
+### @milkdown/plugin-block 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -670,7 +670,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-clipboard 7.21.2
+### @milkdown/plugin-clipboard 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -701,7 +701,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-cursor 7.21.2
+### @milkdown/plugin-cursor 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -732,7 +732,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-diff 7.21.2
+### @milkdown/plugin-diff 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -763,7 +763,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-history 7.21.2
+### @milkdown/plugin-history 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -794,7 +794,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-indent 7.21.2
+### @milkdown/plugin-indent 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -825,7 +825,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-listener 7.21.2
+### @milkdown/plugin-listener 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -856,7 +856,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-slash 7.21.2
+### @milkdown/plugin-slash 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -887,7 +887,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-streaming 7.21.2
+### @milkdown/plugin-streaming 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -918,7 +918,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-tooltip 7.21.2
+### @milkdown/plugin-tooltip 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -949,7 +949,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-trailing 7.21.2
+### @milkdown/plugin-trailing 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -980,7 +980,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/plugin-upload 7.21.2
+### @milkdown/plugin-upload 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -1011,7 +1011,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/preset-commonmark 7.21.2
+### @milkdown/preset-commonmark 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -1042,7 +1042,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/preset-gfm 7.21.2
+### @milkdown/preset-gfm 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -1073,7 +1073,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/prose 7.21.2
+### @milkdown/prose 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -1104,7 +1104,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/theme-nord 7.21.2
+### @milkdown/theme-nord 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -1135,7 +1135,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/transformer 7.21.2
+### @milkdown/transformer 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -1166,7 +1166,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @milkdown/utils 7.21.2
+### @milkdown/utils 7.22.1
 
 - License: MIT
 - Source: git+https://github.com/Milkdown/milkdown.git
@@ -1197,7 +1197,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @napi-rs/canvas 1.0.2
+### @napi-rs/canvas 1.0.7
 
 - License: MIT
 - Source: git+https://github.com/Brooooooklyn/canvas.git
@@ -1296,7 +1296,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### @tauri-apps/plugin-dialog 2.7.1
+### @tauri-apps/plugin-dialog 2.7.2
 
 - License: MIT OR Apache-2.0
 - Authors: Tauri Programme within The Commons Conservancy
@@ -1397,7 +1397,7 @@ Creator: Person: Daniel Thompson-Yvetot
 
 _No local license or notice file was found in the installed package._
 
-### @types/lodash 4.17.24
+### @types/lodash 4.17.25
 
 - License: MIT
 - Authors: Brian Zengel (https://github.com/bczengel), Ilya Mochalov (https://github.com/chrootsu), AJ Richardson (https://github.com/aj-r), e-cloud (https://github.com/e-cloud), Jack Moore (https://github.com/jtmthf), Dominique Rau (https://github.com/DomiR), William Chelman (https://github.com/WilliamChelman)
@@ -1589,7 +1589,7 @@ _No local license or notice file was found in the installed package._
     SOFTWARE
 ```
 
-### @vue/compiler-core 3.5.39
+### @vue/compiler-core 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -1621,7 +1621,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @vue/compiler-dom 3.5.39
+### @vue/compiler-dom 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -1653,7 +1653,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @vue/compiler-sfc 3.5.39
+### @vue/compiler-sfc 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -1685,7 +1685,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @vue/compiler-ssr 3.5.39
+### @vue/compiler-ssr 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -1717,7 +1717,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @vue/reactivity 3.5.39
+### @vue/reactivity 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -1749,7 +1749,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @vue/runtime-core 3.5.39
+### @vue/runtime-core 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -1781,7 +1781,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @vue/runtime-dom 3.5.39
+### @vue/runtime-dom 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -1813,7 +1813,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @vue/server-renderer 3.5.39
+### @vue/server-renderer 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -1845,7 +1845,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### @vue/shared 3.5.39
+### @vue/shared 3.5.41
 
 - License: MIT
 - Authors: Evan You
@@ -2014,7 +2014,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### core-js 3.49.0
+### core-js 3.50.0
 
 - License: MIT
 - Authors: Denis Pushkarev <zloirock@zloirock.ru> (http://zloirock.ru)
@@ -2289,7 +2289,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### dompurify 3.4.11
+### dompurify 3.4.14
 
 - License: (MPL-2.0 OR Apache-2.0)
 - Authors: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
@@ -5342,7 +5342,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### nanoid 3.3.15
+### nanoid 3.3.18
 
 - License: MIT
 - Authors: Andrey Sitnik <andrey@sitnik.ru>
@@ -5373,7 +5373,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### nanoid 5.1.16
+### nanoid 6.0.1
 
 - License: MIT
 - Authors: Andrey Sitnik <andrey@sitnik.es>
@@ -5500,7 +5500,7 @@ THE SOFTWARE.
 
 _No local license or notice file was found in the installed package._
 
-### pdfjs-dist 6.1.200
+### pdfjs-dist 6.2.108
 
 - License: Apache-2.0
 - Source: git+https://github.com/mozilla/pdf.js.git
@@ -5535,7 +5535,7 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ```
 
-### postcss 8.5.16
+### postcss 8.5.26
 
 - License: MIT
 - Authors: Andrey Sitnik <andrey@sitnik.es>
@@ -5595,7 +5595,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.**
 ```
 
-### prosemirror-changeset 2.4.1
+### prosemirror-changeset 2.4.2
 
 - License: MIT
 - Source: git+https://code.haverbeke.berlin/prosemirror/prosemirror-changeset.git
@@ -5624,10 +5624,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### prosemirror-commands 1.7.1
+### prosemirror-commands 1.7.2
 
 - License: MIT
-- Source: git://github.com/prosemirror/prosemirror-commands.git
+- Source: git+https://code.haverbeke.berlin/prosemirror/prosemirror-commands.git
 
 #### LICENSE
 
@@ -5685,10 +5685,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### prosemirror-dropcursor 1.8.2
+### prosemirror-dropcursor 1.8.3
 
 - License: MIT
-- Source: git://github.com/prosemirror/prosemirror-dropcursor.git
+- Source: git+https://code.haverbeke.berlin/prosemirror/prosemirror-dropcursor.git
 
 #### LICENSE
 
@@ -5830,7 +5830,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### prosemirror-model 1.25.9
+### prosemirror-model 1.25.11
 
 - License: MIT
 - Source: git+https://code.haverbeke.berlin/prosemirror/prosemirror-model.git
@@ -6007,7 +6007,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-### prosemirror-view 1.42.0
+### prosemirror-view 1.42.2
 
 - License: MIT
 - Source: git+https://code.haverbeke.berlin/prosemirror/prosemirror-view.git
@@ -6858,7 +6858,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-### vue 3.5.39
+### vue 3.5.41
 
 - License: MIT
 - Authors: Evan You

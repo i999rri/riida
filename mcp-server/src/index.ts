@@ -1,10 +1,7 @@
 #!/usr/bin/env node
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from "@modelcontextprotocol/sdk/types.js";
+import { Server } from "@modelcontextprotocol/server";
+import { StdioServerTransport } from "@modelcontextprotocol/server/stdio";
+import type { Tool } from "@modelcontextprotocol/server";
 import Database from "better-sqlite3";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -562,194 +559,194 @@ export function createServer(options: CreateServerOptions = {}): Server {
     { capabilities: { tools: {} } },
   );
 
-  server.setRequestHandler(ListToolsRequestSchema, async () => ({
-    tools: [
-      {
-        name: "list_books_needing_metadata",
-        description:
-          "Lists books in the riida library that are missing title or authors. " +
-          "Returns file paths with directory structure useful for metadata inference.",
-        inputSchema: {
-          type: "object" as const,
-          properties: {
-            limit: {
-              type: "number",
-              description: "Max books to return (default 50)",
-            },
+  const TOOLS: Tool[] = [
+    {
+      name: "list_books_needing_metadata",
+      description:
+        "Lists books in the riida library that are missing title or authors. " +
+        "Returns file paths with directory structure useful for metadata inference.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          limit: {
+            type: "number",
+            description: "Max books to return (default 50)",
           },
         },
       },
-      {
-        name: "get_book_metadata",
-        description: "Gets the current stored metadata for a book.",
-        inputSchema: {
-          type: "object" as const,
-          required: ["file_path"],
-          properties: {
-            file_path: {
-              type: "string",
-              description: "Absolute path to the PDF file",
-            },
+    },
+    {
+      name: "get_book_metadata",
+      description: "Gets the current stored metadata for a book.",
+      inputSchema: {
+        type: "object" as const,
+        required: ["file_path"],
+        properties: {
+          file_path: {
+            type: "string",
+            description: "Absolute path to the PDF file",
           },
         },
       },
-      {
-        name: "read_pdf_pages",
-        description:
-          "Extracts plain text from the first N pages of a PDF file. " +
-          "Use this to infer title, authors, and publisher from the book content.",
-        inputSchema: {
-          type: "object" as const,
-          required: ["file_path"],
-          properties: {
-            file_path: {
-              type: "string",
-              description: "Absolute path to the PDF file",
-            },
-            max_pages: {
-              type: "number",
-              description: "Number of pages to read (default 3, max 10)",
-            },
+    },
+    {
+      name: "read_pdf_pages",
+      description:
+        "Extracts plain text from the first N pages of a PDF file. " +
+        "Use this to infer title, authors, and publisher from the book content.",
+      inputSchema: {
+        type: "object" as const,
+        required: ["file_path"],
+        properties: {
+          file_path: {
+            type: "string",
+            description: "Absolute path to the PDF file",
+          },
+          max_pages: {
+            type: "number",
+            description: "Number of pages to read (default 3, max 10)",
           },
         },
       },
-      {
-        name: "read_pdf_colophon",
-        description:
-          "Extracts the colophon (奥付) from the LAST pages of a PDF and parses its " +
-          "bibliographic data. Best for Japanese books, which print the ISBN, " +
-          "first-edition date, and publisher on a final colophon page. Returns the " +
-          "detected ISBN (own-book ISBN chosen via its C-code and colophon proximity, " +
-          "so advertised foreign ISBNs are not mistaken for it), release_date, " +
-          "publisher, all ISBN candidates, and the raw tail text for cross-checking.",
-        inputSchema: {
-          type: "object" as const,
-          required: ["file_path"],
-          properties: {
-            file_path: {
-              type: "string",
-              description: "Absolute path to the PDF file",
-            },
-            max_pages: {
-              type: "number",
-              description: "Number of trailing pages to read (default 8, max 15)",
-            },
+    },
+    {
+      name: "read_pdf_colophon",
+      description:
+        "Extracts the colophon (奥付) from the LAST pages of a PDF and parses its " +
+        "bibliographic data. Best for Japanese books, which print the ISBN, " +
+        "first-edition date, and publisher on a final colophon page. Returns the " +
+        "detected ISBN (own-book ISBN chosen via its C-code and colophon proximity, " +
+        "so advertised foreign ISBNs are not mistaken for it), release_date, " +
+        "publisher, all ISBN candidates, and the raw tail text for cross-checking.",
+      inputSchema: {
+        type: "object" as const,
+        required: ["file_path"],
+        properties: {
+          file_path: {
+            type: "string",
+            description: "Absolute path to the PDF file",
+          },
+          max_pages: {
+            type: "number",
+            description: "Number of trailing pages to read (default 8, max 15)",
           },
         },
       },
-      {
-        name: "update_books_metadata",
-        description:
-          "Updates metadata for one or more books in a single atomic transaction. " +
-          "Pass an array of book objects — only the fields you include are changed; omitted fields keep their current values. " +
-          "Always use this instead of calling update_book_metadata in a loop.",
-        inputSchema: {
-          type: "object" as const,
-          required: ["books"],
-          properties: {
-            books: {
-              type: "array",
-              description: "List of books to update",
-              items: {
-                type: "object",
-                required: ["file_path"],
-                properties: {
-                  file_path: { type: "string" },
-                  title: { type: "string" },
-                  authors: {
-                    type: "array",
-                    items: { type: "string" },
-                    description: "Author names",
-                  },
-                  publisher: { type: "string" },
-                  release_date: {
-                    type: "string",
-                    description: "YYYY-MM-DD",
-                  },
-                  description: { type: "string" },
-                  language: {
-                    type: "string",
-                    description: "ISO 639-1 code e.g. 'ja', 'en'",
-                  },
+    },
+    {
+      name: "update_books_metadata",
+      description:
+        "Updates metadata for one or more books in a single atomic transaction. " +
+        "Pass an array of book objects — only the fields you include are changed; omitted fields keep their current values. " +
+        "Always use this instead of calling update_book_metadata in a loop.",
+      inputSchema: {
+        type: "object" as const,
+        required: ["books"],
+        properties: {
+          books: {
+            type: "array",
+            description: "List of books to update",
+            items: {
+              type: "object",
+              required: ["file_path"],
+              properties: {
+                file_path: { type: "string" },
+                title: { type: "string" },
+                authors: {
+                  type: "array",
+                  items: { type: "string" },
+                  description: "Author names",
+                },
+                publisher: { type: "string" },
+                release_date: {
+                  type: "string",
+                  description: "YYYY-MM-DD",
+                },
+                description: { type: "string" },
+                language: {
+                  type: "string",
+                  description: "ISO 639-1 code e.g. 'ja', 'en'",
                 },
               },
             },
           },
         },
       },
-      {
-        name: "search_books",
-        description:
-          "Lists books matching the given filters (all combined with AND). " +
-          "Omit a filter to leave it unrestricted. " +
-          "Returns basic metadata alongside the file path.",
-        inputSchema: {
-          type: "object" as const,
-          properties: {
-            directory: {
-              type: "string",
-              description: "Only books whose path starts with this directory",
-            },
-            path_contains: {
-              type: "string",
-              description: "Only books whose file path contains this string",
-            },
-            title_contains: {
-              type: "string",
-              description: "Only books whose title contains this string (case-insensitive)",
-            },
-            author_contains: {
-              type: "string",
-              description: "Only books whose author list contains this string (case-insensitive)",
-            },
-            tag: {
-              type: "string",
-              description: "Only books that have exactly this tag",
-            },
-            missing_metadata: {
-              type: "boolean",
-              description: "If true, only books missing title or authors",
-            },
-            limit: {
-              type: "number",
-              description: "Max results to return (default 50)",
-            },
+    },
+    {
+      name: "search_books",
+      description:
+        "Lists books matching the given filters (all combined with AND). " +
+        "Omit a filter to leave it unrestricted. " +
+        "Returns basic metadata alongside the file path.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          directory: {
+            type: "string",
+            description: "Only books whose path starts with this directory",
+          },
+          path_contains: {
+            type: "string",
+            description: "Only books whose file path contains this string",
+          },
+          title_contains: {
+            type: "string",
+            description: "Only books whose title contains this string (case-insensitive)",
+          },
+          author_contains: {
+            type: "string",
+            description: "Only books whose author list contains this string (case-insensitive)",
+          },
+          tag: {
+            type: "string",
+            description: "Only books that have exactly this tag",
+          },
+          missing_metadata: {
+            type: "boolean",
+            description: "If true, only books missing title or authors",
+          },
+          limit: {
+            type: "number",
+            description: "Max results to return (default 50)",
           },
         },
       },
-      {
-        name: "get_book_tags",
-        description: "Gets the tags for a book.",
-        inputSchema: {
-          type: "object" as const,
-          required: ["file_path"],
-          properties: {
-            file_path: { type: "string" },
+    },
+    {
+      name: "get_book_tags",
+      description: "Gets the tags for a book.",
+      inputSchema: {
+        type: "object" as const,
+        required: ["file_path"],
+        properties: {
+          file_path: { type: "string" },
+        },
+      },
+    },
+    {
+      name: "set_book_tags",
+      description:
+        "Replaces all tags for a book with the provided list. " +
+        "Pass an empty array to remove all tags.",
+      inputSchema: {
+        type: "object" as const,
+        required: ["file_path", "tags"],
+        properties: {
+          file_path: { type: "string" },
+          tags: {
+            type: "array",
+            items: { type: "string" },
+            description: "Full list of tags to set",
           },
         },
       },
-      {
-        name: "set_book_tags",
-        description:
-          "Replaces all tags for a book with the provided list. " +
-          "Pass an empty array to remove all tags.",
-        inputSchema: {
-          type: "object" as const,
-          required: ["file_path", "tags"],
-          properties: {
-            file_path: { type: "string" },
-            tags: {
-              type: "array",
-              items: { type: "string" },
-              description: "Full list of tags to set",
-            },
-          },
-        },
-      },
-    ],
-  }));
+    },
+  ];
 
-  server.setRequestHandler(CallToolRequestSchema, async (request) => {
+  server.setRequestHandler("tools/list", async () => ({ tools: TOOLS }));
+
+  server.setRequestHandler("tools/call", async (request) => {
     const { name, arguments: args } = request.params;
 
     // -------------------------------------------------------------------------
@@ -1230,7 +1227,19 @@ export function createServer(options: CreateServerOptions = {}): Server {
 // Entry point — only runs when executed directly, not when imported by tests
 // ---------------------------------------------------------------------------
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+// realpathSync on both sides so this still matches when invoked through a
+// symlink (e.g. macOS /tmp -> /private/tmp) — plain argv[1] comparison silently
+// no-ops in that case, since fileURLToPath(import.meta.url) is always resolved.
+function isEntryPoint(): boolean {
+  if (!process.argv[1]) return false;
+  try {
+    return fs.realpathSync(process.argv[1]) === fs.realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+
+if (isEntryPoint()) {
   const transport = new StdioServerTransport();
   await createServer().connect(transport);
 }

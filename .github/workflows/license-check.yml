@@ -23,7 +23,10 @@ jobs:
       - name: Install cargo-deny
         uses: taiki-e/install-action@cargo-deny
       - name: Check Rust dependency licenses
-        run: cargo deny --manifest-path src-tauri/Cargo.toml check --config deny.toml licenses
+        # No --config: it is a `check` option up to cargo-deny 0.19 and a
+        # global-only one from 0.20, so no explicit position works on both.
+        # The default is <cwd>/deny.toml, which is what we want anyway.
+        run: cargo deny --manifest-path src-tauri/Cargo.toml check licenses
 
   npm-licenses:
     runs-on: ubuntu-latest
