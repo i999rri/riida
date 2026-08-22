@@ -179,3 +179,16 @@ export function computeImageFit(
     heightPx: height,
   }));
 }
+
+/**
+ * URL for one page image, served by the `riida-epub` URI scheme.
+ *
+ * `origin` is passed in because its form is platform-dependent: macOS and Linux
+ * reach the scheme as `riida-epub://localhost`, while Windows and Android have
+ * no custom scheme and get `http://riida-epub.localhost` instead. The caller
+ * resolves it from Tauri rather than hard-coding either form.
+ */
+export function epubImageEntryUrl(origin: string, filePath: string, entry: string): string {
+  const base = origin.replace(/\/+$/, "");
+  return `${base}/img?file=${encodeURIComponent(filePath)}&entry=${encodeURIComponent(entry)}`;
+}

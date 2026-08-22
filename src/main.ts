@@ -52,6 +52,7 @@ import { convertPdfRectToViewport } from "./pdf-rect-utils";
 import {
   buildImageSpreads,
   computeImageFit,
+  epubImageEntryUrl,
   firstPageNumberOfSpread,
   type ImagePage,
   type ImageSpread,
@@ -5030,9 +5031,17 @@ function imageEpubViewerElement(): HTMLElement | null {
   return document.querySelector<HTMLElement>("#epub-image-viewer");
 }
 
+/**
+ * Origin the `riida-epub` scheme is served from. Windows and Android have no
+ * custom scheme and reach it as `http://riida-epub.localhost`, so the form is
+ * taken from `convertFileSrc` rather than hard-coded, which keeps it in step
+ * with whatever Tauri actually registered.
+ */
+const riidaEpubOrigin = convertFileSrc("", "riida-epub");
+
 /** riida-epub URL for one zip image entry (served by the Rust URI scheme). */
 function imageEntryUrl(filePath: string, entry: string): string {
-  return `riida-epub://localhost/img?file=${encodeURIComponent(filePath)}&entry=${encodeURIComponent(entry)}`;
+  return epubImageEntryUrl(riidaEpubOrigin, filePath, entry);
 }
 
 function destroyImageEpub() {

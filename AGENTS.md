@@ -263,7 +263,11 @@ streams one image at a time straight out of the zip.
   `image` crate).
 - **Image serving (Rust):** a process-wide custom async URI scheme
   `riida-epub://localhost/img?file=<enc abs path>&entry=<enc zip entry>`
-  registered on the builder in `lib.rs` (`serve_epub_image`). It reads one
+  registered on the builder in `lib.rs` (`serve_epub_image`). Windows and
+  Android have no custom scheme and reach it as
+  `http://riida-epub.localhost/img?...` instead, so the frontend takes the
+  origin from `convertFileSrc` (`epubImageEntryUrl`) rather than hard-coding
+  either form. It reads one
   zip entry per request and is confined to `$HOME/**` (mirrors the asset
   protocol scope) so it is not an arbitrary-file-read endpoint. CSP
   `img-src` allows `riida-epub:` / `http://riida-epub.localhost`.
