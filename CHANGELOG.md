@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.2] - 2026-08-22
+
+### Fixed
+
+- Windows release builds no longer open to a blank window. The app's own startup page was mistaken for an external link and handed to the system browser ([#14](https://github.com/zonuexe/riida/pull/14), thank you [@i999rri](https://github.com/i999rri)!)
+- Building from source on Windows under Git Bash no longer fails while fetching the bundled PDF library ([#15](https://github.com/zonuexe/riida/pull/15), thank you [@i999rri](https://github.com/i999rri)!)
+
 ## [0.8.1] - 2026-08-22
 
 ### Added
@@ -451,7 +458,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reading progress counters and page-tracking UI were removed in favor of position restore only.
 
-[Unreleased]: https://github.com/zonuexe/riida/compare/v0.8.1...HEAD
+[Unreleased]: https://github.com/zonuexe/riida/compare/v0.8.2...HEAD
+[0.8.2]: https://github.com/zonuexe/riida/compare/v0.8.1...v0.8.2
 [0.8.1]: https://github.com/zonuexe/riida/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/zonuexe/riida/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/zonuexe/riida/compare/v0.6.2...v0.7.0
